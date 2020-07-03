@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[CodeToUsers]
+(
+	[Code] VARCHAR(50) NOT NULL,
+	[UserID] INT NOT NULL FOREIGN KEY REFERENCES [Users]([UserID]),
+	[LastUpdated] DATETIME NOT NULL DEFAULT GETDATE(),
+	[Available] BIT NOT NULL
+)
