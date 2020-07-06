@@ -27,6 +27,7 @@ namespace LoginForgot.DataAccess
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<CountryPhones> CountryPhones { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<CodeToUsers> CodeToUsers { get; set; }
     
@@ -51,15 +52,6 @@ namespace LoginForgot.DataAccess
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddUser", userNameParameter, emailParameter, passwordParameter, cellPhoneParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> GetCodeToForgot(string email)
-        {
-            var emailParameter = email != null ?
-                new ObjectParameter("Email", email) :
-                new ObjectParameter("Email", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("GetCodeToForgot", emailParameter);
-        }
-    
         public virtual ObjectResult<GetUserToLogin_Result> GetUserToLogin(string user, string password)
         {
             var userParameter = user != null ?
@@ -71,6 +63,56 @@ namespace LoginForgot.DataAccess
                 new ObjectParameter("Password", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUserToLogin_Result>("GetUserToLogin", userParameter, passwordParameter);
+        }
+    
+        public virtual ObjectResult<GetAllCountryPhones_Result> GetAllCountryPhones()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllCountryPhones_Result>("GetAllCountryPhones");
+        }
+    
+        public virtual ObjectResult<GetAllCountryPhonesToCombo_Result> GetAllCountryPhonesToCombo()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllCountryPhonesToCombo_Result>("GetAllCountryPhonesToCombo");
+        }
+    
+        public virtual ObjectResult<GetCodeToForgot_Result> GetCodeToForgot(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCodeToForgot_Result>("GetCodeToForgot", emailParameter);
+        }
+    
+        public virtual ObjectResult<GetCodeValid_Result> GetCodeValid(string code)
+        {
+            var codeParameter = code != null ?
+                new ObjectParameter("Code", code) :
+                new ObjectParameter("Code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCodeValid_Result>("GetCodeValid", codeParameter);
+        }
+    
+        public virtual int UpdPassword(Nullable<int> userID, string password)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdPassword", userIDParameter, passwordParameter);
+        }
+    
+        public virtual ObjectResult<GetUserByEmail_Result> GetUserByEmail(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUserByEmail_Result>("GetUserByEmail", emailParameter);
         }
     }
 }

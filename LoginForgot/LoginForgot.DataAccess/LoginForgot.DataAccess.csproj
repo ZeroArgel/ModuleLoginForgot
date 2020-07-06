@@ -56,9 +56,28 @@
     <Compile Include="CodeToUsers.cs">
       <DependentUpon>Template.tt</DependentUpon>
     </Compile>
+    <Compile Include="CountryPhones.cs">
+      <DependentUpon>Template.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBCore\ContextMapper.cs" />
     <Compile Include="DBCore\CRUD\Create.cs" />
     <Compile Include="DBCore\CRUD\Read.cs" />
+    <Compile Include="DBCore\CRUD\Update.cs" />
+    <Compile Include="GetAllCountryPhonesToCombo_Result.cs">
+      <DependentUpon>Template.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetAllCountryPhones_Result.cs">
+      <DependentUpon>Template.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetCodeToForgot_Result.cs">
+      <DependentUpon>Template.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetCodeValid_Result.cs">
+      <DependentUpon>Template.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetUserByEmail_Result.cs">
+      <DependentUpon>Template.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetUserToLogin_Result.cs">
       <DependentUpon>Template.tt</DependentUpon>
     </Compile>

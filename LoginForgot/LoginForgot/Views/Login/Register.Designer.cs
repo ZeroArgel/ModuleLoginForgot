@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.GBox_PanelRegister = new System.Windows.Forms.GroupBox();
+            this.Cbx_Code = new System.Windows.Forms.ComboBox();
             this.Btn_ReturnLogin = new System.Windows.Forms.Button();
             this.Btn_Save = new System.Windows.Forms.Button();
             this.Txt_Cellphone = new System.Windows.Forms.TextBox();
@@ -46,6 +47,7 @@
             // 
             // GBox_PanelRegister
             // 
+            this.GBox_PanelRegister.Controls.Add(this.Cbx_Code);
             this.GBox_PanelRegister.Controls.Add(this.Btn_ReturnLogin);
             this.GBox_PanelRegister.Controls.Add(this.Btn_Save);
             this.GBox_PanelRegister.Controls.Add(this.Txt_Cellphone);
@@ -65,6 +67,14 @@
             this.GBox_PanelRegister.TabStop = false;
             this.GBox_PanelRegister.Text = "Register";
             // 
+            // Cbx_Code
+            // 
+            this.Cbx_Code.FormattingEnabled = true;
+            this.Cbx_Code.Location = new System.Drawing.Point(9, 202);
+            this.Cbx_Code.Name = "Cbx_Code";
+            this.Cbx_Code.Size = new System.Drawing.Size(139, 21);
+            this.Cbx_Code.TabIndex = 9;
+            // 
             // Btn_ReturnLogin
             // 
             this.Btn_ReturnLogin.Location = new System.Drawing.Point(9, 229);
@@ -73,6 +83,7 @@
             this.Btn_ReturnLogin.TabIndex = 6;
             this.Btn_ReturnLogin.Text = "Return Login";
             this.Btn_ReturnLogin.UseVisualStyleBackColor = true;
+            this.Btn_ReturnLogin.Click += new System.EventHandler(this.Btn_ReturnLogin_Click);
             // 
             // Btn_Save
             // 
@@ -86,9 +97,9 @@
             // 
             // Txt_Cellphone
             // 
-            this.Txt_Cellphone.Location = new System.Drawing.Point(9, 203);
+            this.Txt_Cellphone.Location = new System.Drawing.Point(154, 203);
             this.Txt_Cellphone.Name = "Txt_Cellphone";
-            this.Txt_Cellphone.Size = new System.Drawing.Size(263, 20);
+            this.Txt_Cellphone.Size = new System.Drawing.Size(118, 20);
             this.Txt_Cellphone.TabIndex = 5;
             // 
             // Lbl_Cellphone
@@ -197,5 +208,6 @@
         private System.Windows.Forms.Label Lbl_Cellphone;
         private System.Windows.Forms.Button Btn_ReturnLogin;
         private System.Windows.Forms.Button Btn_Save;
+        private System.Windows.Forms.ComboBox Cbx_Code;
     }
 }

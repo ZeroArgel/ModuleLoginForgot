@@ -1,4 +1,5 @@
-﻿using LoginForgot.DataAccess.DBCore.CRUD;
+﻿using LoginForgot.Core.RetrieveServices;
+using LoginForgot.DataAccess.DBCore.CRUD;
 using System;
 
 namespace LoginForgot.Core.WriteServices
@@ -6,14 +7,25 @@ namespace LoginForgot.Core.WriteServices
     public class WriteServicesLogins
     {
         private Create Create_;
+        private Update Update_;
         public WriteServicesLogins()
         {
             Create_ = new Create();
+            Update_ = new Update();
         }
         public void Register(string userName, string email, string password, string confirmPassword, string cellPhone)
         {
             ThrowErrors(userName, email, password, cellPhone, confirmPassword);
             Create_.CreateDB(userName.CreateModelUser(password.ToHash(), 0, email, cellPhone));
+        }
+        public void NewPassword(string email, string newPassword, string confirmNewPassword)
+        {
+            ThrowErrors("NewPassword", email, newPassword, "NewPassword", confirmNewPassword);
+            var Read = new Read();
+            var RetrieveAdmin = new RetrieveServicesAdmin(Read);
+            var WriteAdmin = new WriteServicesAdmin(Create_, Update_);
+            var User = RetrieveAdmin.GetUserByEmail(email);
+            WriteAdmin.ChangePassword(User.UserID, newPassword.ToHash());
         }
         private void ThrowErrors(string userName, string email, string password, string cellPhone, string confirmPassword=null)
         {
@@ -27,6 +39,7 @@ namespace LoginForgot.Core.WriteServices
         ~WriteServicesLogins()
         {
             Create_ = null;
+            Update_ = null;
         }
     }
 }

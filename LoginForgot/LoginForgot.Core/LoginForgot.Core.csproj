@@ -41,6 +41,7 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.2\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
@@ -59,9 +60,10 @@
   <ItemGroup>
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RetrieveServices\RetrieveServicesAdmin.cs" />
     <Compile Include="RetrieveServices\RetriveServicesLogins.cs" />
+    <Compile Include="WriteServices\WriteServicesAdmin.cs" />
     <Compile Include="WriteServices\WriteServicesLogins.cs" />
-    <Compile Include="WriteServices\WriteServicesSendSMS.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

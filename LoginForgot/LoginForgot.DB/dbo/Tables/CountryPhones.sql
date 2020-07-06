@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[CountryPhones]
+(
+	[CountryId] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[CountryName] VARCHAR(50) NOT NULL,
+	[Code] VARCHAR(5) NOT NULL,
+	[LastUpdated] DATETIME NOT NULL DEFAULT GETDATE(),
+	[Available] BIT NOT NULL DEFAULT '1'
+)

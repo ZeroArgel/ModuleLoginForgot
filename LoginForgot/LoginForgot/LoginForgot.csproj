@@ -123,6 +123,10 @@
       <Project>{a8fdf1d2-8047-4343-af39-5f8edd4898fb}</Project>
       <Name>LoginForgot.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LoginForgot.Models\LoginForgot.Models.csproj">
+      <Project>{A33BA50A-06A1-4F1C-8941-8C2077CDF725}</Project>
+      <Name>LoginForgot.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

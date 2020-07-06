@@ -14,7 +14,6 @@
         {
             InitializeComponent();
         }
-
         private void Btn_Register_Click(object sender, EventArgs e)
         {
             var register = new Register();
@@ -23,7 +22,6 @@
             CleanForm();
             Show();
         }
-
         private void Btn_Forgot_Click(object sender, EventArgs e)
         {
             var forgot = new Forgot();
@@ -32,7 +30,6 @@
             CleanForm();
             Show();
         }
-
         private void Btn_Login_Click(object sender, EventArgs e)
         {
             try
@@ -53,8 +50,7 @@
             finally
             {
                 RetriveServicesLogins_ = null;
-            }
-            
+            }            
         }
         private void CleanForm()
         {

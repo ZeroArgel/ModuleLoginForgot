@@ -6,5 +6,5 @@
 	[Password] VARCHAR(70) NOT NULL,
 	[CellPhone] VARCHAR(50) NOT NULL,
 	[LastUpdated] DATETIME NOT NULL DEFAULT GETDATE(),
-	[Available] BIT NOT NULL DEFAULT '1',
+	[Available] BIT NOT NULL DEFAULT '1'
 )

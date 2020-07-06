@@ -5,17 +5,22 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="LoginForgotModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'LoginForgot.dbo.CodeToUsers' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CodeToUsers">
           <Key>
             <PropertyRef Name="Code" />
-            <PropertyRef Name="UserID" />
-            <PropertyRef Name="LastUpdated" />
-            <PropertyRef Name="Available" />
           </Key>
           <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Nullable="false" />
+          <Property Name="Available" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CountryPhones">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="LastUpdated" Type="datetime" Nullable="false" />
           <Property Name="Available" Type="bit" Nullable="false" />
         </EntityType>
@@ -49,23 +54,29 @@ warning 6002: The table/view 'LoginForgot.dbo.CodeToUsers' does not have a prima
           <Parameter Name="Password" Type="varchar" Mode="In" />
           <Parameter Name="CellPhone" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GetAllCountryPhones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllCountryPhonesToCombo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetCodeToForgot" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetCodeValid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Code" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetUserByEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Email" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetUserToLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="User" Type="varchar" Mode="In" />
           <Parameter Name="Password" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="UpdPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="LoginForgotModelStoreContainer">
+          <EntitySet Name="CodeToUsers" EntityType="Self.CodeToUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CountryPhones" EntityType="Self.CountryPhones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CodeToUsers" EntityType="Self.CodeToUsers" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CodeToUsers].[Code] AS [Code], 
-    [CodeToUsers].[UserID] AS [UserID], 
-    [CodeToUsers].[LastUpdated] AS [LastUpdated], 
-    [CodeToUsers].[Available] AS [Available]
-    FROM [dbo].[CodeToUsers] AS [CodeToUsers]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK__CodeToUse__UserI__4D94879B" Association="Self.FK__CodeToUse__UserI__4D94879B">
             <End Role="Users" EntitySet="Users" />
             <End Role="CodeToUsers" EntitySet="CodeToUsers" />
@@ -76,26 +87,58 @@ warning 6002: The table/view 'LoginForgot.dbo.CodeToUsers' does not have a prima
     <edmx:ConceptualModels>
       <Schema Namespace="LoginForgotModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="LoginForgotEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Users" EntityType="LoginForgotModel.Users" />
-          <EntitySet Name="CodeToUsers" EntityType="LoginForgotModel.CodeToUsers" />
-          <AssociationSet Name="FK__CodeToUse__UserI__4D94879B" Association="LoginForgotModel.FK__CodeToUse__UserI__4D94879B">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="CodeToUsers" EntitySet="CodeToUsers" />
-          </AssociationSet>
           <FunctionImport Name="AddUser">
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="Email" Mode="In" Type="String" />
             <Parameter Name="Password" Mode="In" Type="String" />
             <Parameter Name="CellPhone" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetCodeToForgot" ReturnType="Collection(Int32)">
-            <Parameter Name="Email" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="GetUserToLogin" ReturnType="Collection(LoginForgotModel.GetUserToLogin_Result)">
             <Parameter Name="User" Mode="In" Type="String" />
             <Parameter Name="Password" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="CountryPhones" EntityType="LoginForgotModel.CountryPhones" />
+          <EntitySet Name="Users" EntityType="LoginForgotModel.Users" />
+          <FunctionImport Name="GetAllCountryPhones" ReturnType="Collection(LoginForgotModel.GetAllCountryPhones_Result)" />
+          <EntitySet Name="CodeToUsers" EntityType="LoginForgotModel.CodeToUsers" />
+          <AssociationSet Name="FK__CodeToUse__UserI__4D94879B" Association="LoginForgotModel.FK__CodeToUse__UserI__4D94879B">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CodeToUsers" EntitySet="CodeToUsers" />
+          </AssociationSet>
+          <FunctionImport Name="GetAllCountryPhonesToCombo" ReturnType="Collection(LoginForgotModel.GetAllCountryPhonesToCombo_Result)" />
+          <FunctionImport Name="GetCodeToForgot" ReturnType="Collection(LoginForgotModel.GetCodeToForgot_Result)">
+          <Parameter Name="Email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetCodeValid" ReturnType="Collection(LoginForgotModel.GetCodeValid_Result)">
+          <Parameter Name="Code" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdPassword">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetUserByEmail" ReturnType="Collection(LoginForgotModel.GetUserByEmail_Result)">
+          <Parameter Name="Email" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="GetUserToLogin_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="70" />
+          <Property Type="String" Name="CellPhone" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="LastUpdated" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="Available" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="CountryPhones">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Available" Type="Boolean" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="UserID" />
@@ -109,12 +152,16 @@ warning 6002: The table/view 'LoginForgot.dbo.CodeToUsers' does not have a prima
           <Property Name="Available" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CodeToUsers" Relationship="LoginForgotModel.FK__CodeToUse__UserI__4D94879B" FromRole="Users" ToRole="CodeToUsers" />
         </EntityType>
+        <ComplexType Name="GetAllCountryPhones_Result">
+          <Property Type="Int32" Name="CountryId" Nullable="false" />
+          <Property Type="String" Name="CountryName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="5" />
+          <Property Type="DateTime" Name="LastUpdated" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="Available" Nullable="false" />
+        </ComplexType>
         <EntityType Name="CodeToUsers">
           <Key>
             <PropertyRef Name="Code" />
-            <PropertyRef Name="UserID" />
-            <PropertyRef Name="LastUpdated" />
-            <PropertyRef Name="Available" />
           </Key>
           <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
@@ -134,7 +181,22 @@ warning 6002: The table/view 'LoginForgot.dbo.CodeToUsers' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetUserToLogin_Result">
+        <ComplexType Name="GetAllCountryPhonesToCombo_Result">
+          <Property Type="String" Name="Key" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="Value" Nullable="false" MaxLength="58" />
+        </ComplexType>
+        <ComplexType Name="GetCodeToForgot_Result">
+          <Property Type="Int32" Name="Code" Nullable="true" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="CellPhone" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetCodeValid_Result">
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="DateTime" Name="LastUpdated" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="Available" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetUserByEmail_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
           <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Email" Nullable="false" MaxLength="150" />
@@ -149,6 +211,31 @@ warning 6002: The table/view 'LoginForgot.dbo.CodeToUsers' does not have a prima
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="LoginForgotModelStoreContainer" CdmEntityContainer="LoginForgotEntities">
+          <FunctionImportMapping FunctionImportName="AddUser" FunctionName="LoginForgotModel.Store.AddUser" />
+          <FunctionImportMapping FunctionImportName="GetUserToLogin" FunctionName="LoginForgotModel.Store.GetUserToLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LoginForgotModel.GetUserToLogin_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="Available" ColumnName="Available" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CountryPhones">
+            <EntityTypeMapping TypeName="LoginForgotModel.CountryPhones">
+              <MappingFragment StoreEntitySet="CountryPhones">
+                <ScalarProperty Name="Available" ColumnName="Available" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="LoginForgotModel.Users">
               <MappingFragment StoreEntitySet="Users">
@@ -162,6 +249,17 @@ warning 6002: The table/view 'LoginForgot.dbo.CodeToUsers' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetAllCountryPhones" FunctionName="LoginForgotModel.Store.GetAllCountryPhones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LoginForgotModel.GetAllCountryPhones_Result">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="Available" ColumnName="Available" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="CodeToUsers">
             <EntityTypeMapping TypeName="LoginForgotModel.CodeToUsers">
               <MappingFragment StoreEntitySet="CodeToUsers">
@@ -172,11 +270,37 @@ warning 6002: The table/view 'LoginForgot.dbo.CodeToUsers' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="AddUser" FunctionName="LoginForgotModel.Store.AddUser" />
-          <FunctionImportMapping FunctionImportName="GetCodeToForgot" FunctionName="LoginForgotModel.Store.GetCodeToForgot" />
-          <FunctionImportMapping FunctionImportName="GetUserToLogin" FunctionName="LoginForgotModel.Store.GetUserToLogin">
+          <FunctionImportMapping FunctionImportName="GetAllCountryPhonesToCombo" FunctionName="LoginForgotModel.Store.GetAllCountryPhonesToCombo">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="LoginForgotModel.GetUserToLogin_Result">
+              <ComplexTypeMapping TypeName="LoginForgotModel.GetAllCountryPhonesToCombo_Result">
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCodeToForgot" FunctionName="LoginForgotModel.Store.GetCodeToForgot">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LoginForgotModel.GetCodeToForgot_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCodeValid" FunctionName="LoginForgotModel.Store.GetCodeValid">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LoginForgotModel.GetCodeValid_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="Available" ColumnName="Available" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdPassword" FunctionName="LoginForgotModel.Store.UpdPassword" />
+          <FunctionImportMapping FunctionImportName="GetUserByEmail" FunctionName="LoginForgotModel.Store.GetUserByEmail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LoginForgotModel.GetUserByEmail_Result">
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />

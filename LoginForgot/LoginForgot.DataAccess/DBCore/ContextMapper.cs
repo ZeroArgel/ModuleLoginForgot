@@ -17,6 +17,9 @@ namespace LoginForgot.DataAccess.DBCore
                     cfg => {
                         cfg.CreateMap<User, Users>();
                         cfg.CreateMap<GetUserToLogin_Result, User>();
+                        cfg.CreateMap<GetUserByEmail_Result, User>();
+                        cfg.CreateMap<GetAllCountryPhonesToCombo_Result, GenericKeyValue>();
+                        cfg.CreateMap<GetCodeToForgot_Result, Forgot>();
                     })
                 );
     }

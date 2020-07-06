@@ -4,7 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5fe930afc0c6404b9da939da4abf2572" Name="Diagram1">
+      <Diagram DiagramId="5fe930afc0c6404b9da939da4abf2572" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="LoginForgotModel.CountryPhones" Width="1.5" PointX="0.75" PointY="4.75" />
         <EntityTypeShape EntityType="LoginForgotModel.Users" Width="1.5" PointX="0.75" PointY="1" />
         <EntityTypeShape EntityType="LoginForgotModel.CodeToUsers" Width="1.5" PointX="3" PointY="1.25" />
         <AssociationConnector Association="LoginForgotModel.FK__CodeToUse__UserI__4D94879B" />
