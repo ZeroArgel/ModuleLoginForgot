@@ -20,7 +20,6 @@
                 new ZAParam("Email", user.Email, AllSQLType.VarChar, 150),
                 new ZAParam("Password", user.Password, AllSQLType.VarChar, 70),
                 new ZAParam("CellPhone", user.CellPhone, AllSQLType.VarChar, 50)
-
             };
             _strConn.Send("[dbo].[AddUser]", AllCmdType.SP, zAParam);
         }

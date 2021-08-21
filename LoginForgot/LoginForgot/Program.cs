@@ -24,7 +24,7 @@
             var host = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((context, builder) =>
                 {
-                    builder.AddJsonFile("appsettings.json", optional: true);
+                    builder.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 }).ConfigureServices((context, services) =>
                 {
                     ConfigureServices(context.Configuration, services);
@@ -39,6 +39,7 @@
         #region ConfigureServices
         private static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
+            var conn = configuration.GetConnectionString("LoginFogotDB");
             services.Configure<TwilioOptions>(configuration.GetSection(nameof(TwilioOptions)));
 
             // DI from Core.
