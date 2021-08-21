@@ -1,20 +1,19 @@
-﻿using LoginForgot.Core.RetrieveServices;
-using LoginForgot.Core.WriteServices;
-using LoginForgot.Models;
-using System;
-using System.Windows.Forms;
-
-namespace LoginForgot.Views.Login
+﻿namespace LoginForgot.Views.Login
 {
+    using System;
+    using System.Windows.Forms;
+    using Interfaces;
     public partial class Register : Form
     {
         // Services.
-        private WriteServicesLogins WriteServicesLogins_;
-        private RetriveServicesLogins RetriveServicesLogins_;
+        private readonly IRetrieveServicesLogins _IRetrieveServicesLogins;
+        private readonly IWriteServicesLogins _IWriteServicesLogins;
 
-        public Register()
+        public Register(IRetrieveServicesLogins iRetrieveServicesLogins, IWriteServicesLogins iWriteServicesLogins)
         {
             InitializeComponent();
+            _IRetrieveServicesLogins = iRetrieveServicesLogins;
+            _IWriteServicesLogins = iWriteServicesLogins;
             InitCbx_Code();
         }
 
@@ -22,8 +21,7 @@ namespace LoginForgot.Views.Login
         {
             try
             {
-                WriteServicesLogins_ = new WriteServicesLogins();
-                WriteServicesLogins_.Register(Txt_UserName.Text, Txt_Email.Text, Txt_Password.Text, Txt_ConfirmPassword.Text, Cbx_Code.SelectedValue + Txt_Cellphone.Text);
+                _IWriteServicesLogins.Register(Txt_UserName.Text, Txt_Email.Text, Txt_Password.Text, Txt_ConfirmPassword.Text, Cbx_Code.SelectedValue + Txt_Cellphone.Text);
                 CleanForm();
                 MessageBox.Show("User Create, Login now");
                 Close();
@@ -32,26 +30,22 @@ namespace LoginForgot.Views.Login
             {
                 MessageBox.Show(ex.Message);
             }
-            finally
-            {
-                WriteServicesLogins_ = null;
-            }
         }
         private void InitCbx_Code()
         {
             try 
             { 
-                RetriveServicesLogins_ = new RetriveServicesLogins();
-                var listCode = RetriveServicesLogins_.GetCountryForCombobox();
+                var listCode = _IRetrieveServicesLogins.GetCountryForCombobox();
                 Cbx_Code.DisplayMember = "Value";
                 Cbx_Code.ValueMember = "Key";
                 Cbx_Code.DataSource = listCode;
             }
-            finally
+            catch (Exception ex)
             {
-                RetriveServicesLogins_ = null;
+                MessageBox.Show(ex.Message);
             }
         }
+        #region CleanForm
         private void CleanForm()
         {
             Txt_UserName.Text = "";
@@ -60,12 +54,14 @@ namespace LoginForgot.Views.Login
             Txt_Password.Text = "";
             Txt_Cellphone.Text = "";
         }
-
+        #endregion
+        #region Btn_ReturnLogin_Click
         private void Btn_ReturnLogin_Click(object sender, EventArgs e)
         {
             CleanForm();
             Dispose();
             Close();
         }
+        #endregion
     }
 }

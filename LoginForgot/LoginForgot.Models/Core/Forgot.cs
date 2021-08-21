@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace LoginForgot.Models
+﻿namespace LoginForgot.Models
 {
+    using System;
     public class Forgot
     {
         public string Code { get; set; }

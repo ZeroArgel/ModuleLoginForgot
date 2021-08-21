@@ -4,14 +4,14 @@ AS
 BEGIN
   -- Get code to return password.
   DECLARE @Code INT = (SELECT 1000000 - CAST(RAND()*999999 AS INT));
-  DECLARE @UserID INT = (SELECT [UserID] FROM [Users] WHERE [Email] = @Email AND [Available] = '1');
+  DECLARE @UserId INT = (SELECT [UserId] FROM [Users] WHERE [Email] = @Email AND [Available] = '1');
 
   IF @UserID = NULL
   BEGIN
     RAISERROR (15600,-1,-1, 'Code to Forgot');  
   END
-  INSERT INTO [CodeToUsers]([UserID], [Code])
-   VALUES(@UserID, @Code);
+  INSERT INTO [CodeToUsers]([UserId], [Code])
+   VALUES(@UserId, @Code);
 
   SELECT 
     @Code AS [Code],

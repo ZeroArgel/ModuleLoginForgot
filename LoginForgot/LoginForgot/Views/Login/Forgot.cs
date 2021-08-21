@@ -1,17 +1,18 @@
 ﻿namespace LoginForgot.Views.Login
 {
-    using LoginForgot.Core.RetrieveServices;
-    using LoginForgot.Core.WriteServices;
+    using Interfaces;
     using System;
     using System.Windows.Forms;
     public partial class Forgot : Form
     {
         // Services.
-        private RetriveServicesLogins RetriveServicesLogins_;
-        private WriteServicesLogins WriteServicesLogins_;
-        public Forgot()
+        private IRetrieveServicesLogins _IRetrieveServicesLogins;
+        private IWriteServicesLogins _IWriteServicesLogins;
+        public Forgot(IRetrieveServicesLogins iRetrieveServicesLogins, IWriteServicesLogins iWriteServicesLogins)
         {
             InitializeComponent();
+            _IRetrieveServicesLogins = iRetrieveServicesLogins;
+            _IWriteServicesLogins = iWriteServicesLogins;
             CleanForm();
             GBox_PanelRecover.Enabled = false;
             Pnl_NewPassword.Enabled = false;
@@ -20,8 +21,7 @@
         {
             try
             {
-                RetriveServicesLogins_ = new RetriveServicesLogins();
-                MessageBox.Show("Send Code to " + RetriveServicesLogins_.RecoverByEmail(Txt_Email.Text));
+                MessageBox.Show("Send Code to " + _IRetrieveServicesLogins.RecoverByEmail(Txt_Email.Text));
                 GBox_PanelRecover.Enabled = true;
                 GBox_PanelForgot.Enabled = false;
             }
@@ -29,17 +29,12 @@
             {
                 MessageBox.Show(ex.Message);
             }
-            finally
-            {
-                RetriveServicesLogins_ = null;
-            }
         }
         private void Btn_Verify_Click(object sender, EventArgs e)
         {
             try
             {
-                RetriveServicesLogins_ = new RetriveServicesLogins();
-                RetriveServicesLogins_.ValidCode(Txt_Code.Text);
+                _IRetrieveServicesLogins.ValidCode(Txt_Code.Text);
                 Pnl_NewPassword.Enabled = true;
                 Txt_Code.Enabled = false;
             }
@@ -47,17 +42,12 @@
             {
                 MessageBox.Show(ex.Message);
             }
-            finally
-            {
-                RetriveServicesLogins_ = null;
-            }
         }
         private void Btn_Save_Click(object sender, EventArgs e)
         {
             try
             {
-                WriteServicesLogins_ = new WriteServicesLogins();
-                WriteServicesLogins_.NewPassword(Txt_Email.Text, Txt_NewPassword.Text, Txt_ConfirmNewPassword.Text);
+                _IWriteServicesLogins.NewPassword(Txt_Email.Text, Txt_NewPassword.Text, Txt_ConfirmNewPassword.Text);
                 MessageBox.Show("Password Reset. Try login again");
                 CleanForm();
                 Dispose();
@@ -66,10 +56,6 @@
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                WriteServicesLogins_ = null;
             }
         }
         private void CleanForm()
