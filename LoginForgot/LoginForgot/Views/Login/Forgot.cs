@@ -1,13 +1,14 @@
 ﻿namespace LoginForgot.Views.Login
 {
-    using Interfaces;
     using System;
     using System.Windows.Forms;
+    using Interfaces;
     public partial class Forgot : Form
     {
         // Services.
-        private IRetrieveServicesLogins _IRetrieveServicesLogins;
-        private IWriteServicesLogins _IWriteServicesLogins;
+        private readonly IRetrieveServicesLogins _IRetrieveServicesLogins;
+        private readonly IWriteServicesLogins _IWriteServicesLogins;
+
         public Forgot(IRetrieveServicesLogins iRetrieveServicesLogins, IWriteServicesLogins iWriteServicesLogins)
         {
             InitializeComponent();
@@ -17,6 +18,7 @@
             GBox_PanelRecover.Enabled = false;
             Pnl_NewPassword.Enabled = false;
         }
+        #region Btn_Recover_Click
         private void Btn_Recover_Click(object sender, EventArgs e)
         {
             try
@@ -30,6 +32,8 @@
                 MessageBox.Show(ex.Message);
             }
         }
+        #endregion
+        #region Btn_Verify_Click
         private void Btn_Verify_Click(object sender, EventArgs e)
         {
             try
@@ -43,6 +47,8 @@
                 MessageBox.Show(ex.Message);
             }
         }
+        #endregion
+        #region Btn_Save_Click
         private void Btn_Save_Click(object sender, EventArgs e)
         {
             try
@@ -58,6 +64,8 @@
                 MessageBox.Show(ex.Message);
             }
         }
+        #endregion
+        #region CleanForm
         private void CleanForm()
         {
             Txt_Email.Text = "";
@@ -69,11 +77,14 @@
             GBox_PanelRecover.Enabled = false;
             Pnl_NewPassword.Enabled = false;
         }
+        #endregion
+        #region Btn_ReturnLogin_Click
         private void Btn_ReturnLogin_Click(object sender, EventArgs e)
         {
             CleanForm();
             Dispose();
             Close();
         }
+        #endregion
     }
 }

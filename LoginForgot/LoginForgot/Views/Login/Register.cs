@@ -16,7 +16,7 @@
             _IWriteServicesLogins = iWriteServicesLogins;
             InitCbx_Code();
         }
-
+        #region Btn_Save_Click
         private void Btn_Save_Click(object sender, EventArgs e)
         {
             try
@@ -31,6 +31,8 @@
                 MessageBox.Show(ex.Message);
             }
         }
+        #endregion
+        #region InitCbx_Code
         private void InitCbx_Code()
         {
             try 
@@ -45,6 +47,7 @@
                 MessageBox.Show(ex.Message);
             }
         }
+        #endregion
         #region CleanForm
         private void CleanForm()
         {
