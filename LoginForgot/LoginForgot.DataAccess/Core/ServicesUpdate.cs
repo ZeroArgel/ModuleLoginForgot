@@ -11,6 +11,7 @@
     {
         private readonly string _strConn;
         public ServicesUpdate(IConfiguration configuration) => _strConn = configuration.GetConnectionString("LoginFogotDB");
+        #region ChangePassword
         public void ChangePassword(int userID, string password)
         {
             var zAParam = new List<ZAParam>()
@@ -20,5 +21,6 @@
             };
             _strConn.Send("[dbo].[UpdPassword]", AllCmdType.SP, zAParam);
         }
+        #endregion
     }
 }

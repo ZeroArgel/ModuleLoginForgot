@@ -14,6 +14,7 @@
         private readonly IServicesRead _IServicesRead;
         public RetrieveServicesLogins(IServicesRead iServicesRead) => _IServicesRead = iServicesRead;
         public IEnumerable<GenericKeyValue> GetCountryForCombobox() => _IServicesRead.ReadAllCountryPhonesToCombo().ToList();
+        #region Login
         public string Login(string userName, string password)
         {
             if (userName.IsEmpty()) throw new ArgumentException("UserName is Empty");
@@ -23,6 +24,8 @@
             if (User == null) throw new ArgumentException("Not exist this UserName or Email");
             return User.UserName;
         }
+        #endregion
+        #region RecoverByEmail
         public string RecoverByEmail(string email)
         {
             if (email.IsEmpty()) throw new ArgumentException("Email is Empty");
@@ -30,10 +33,13 @@
             code.CellPhone.SendMsg(code.Code);
             return code.CellPhone;
         }
+        #endregion
+        #region ValidCode
         public void ValidCode(string code)
         {
             if (code.IsEmpty()) throw new ArgumentException("Code is Empty");
             _IServicesRead.ValidCode(code);
         }
+        #endregion
     }
 }

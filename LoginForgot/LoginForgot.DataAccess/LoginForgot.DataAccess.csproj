@@ -84,7 +84,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ToMap.cs" />
     <Compile Include="Core\ServicesCreate.cs" />
     <Compile Include="Core\ServicesRead.cs" />
     <Compile Include="Core\ServicesUpdate.cs" />

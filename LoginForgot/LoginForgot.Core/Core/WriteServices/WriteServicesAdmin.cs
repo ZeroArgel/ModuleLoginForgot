@@ -11,11 +11,13 @@
         private readonly IServicesUpdate _IServicesUpdate;
 
         public WriteServicesAdmin(IServicesUpdate iServicesUpdate) => _IServicesUpdate = iServicesUpdate;
+        #region ChangePassword
         public void ChangePassword(int userId, string password)
         {
             if (userId == 0) throw new ArgumentException("UserID is Empty");
             if (password.IsEmpty()) throw new ArgumentException("Password is Empty");
             _IServicesUpdate.ChangePassword(userId, password);
         }
+        #endregion
     }
 }

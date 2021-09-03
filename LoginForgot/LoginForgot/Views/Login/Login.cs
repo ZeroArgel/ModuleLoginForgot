@@ -55,11 +55,13 @@
             }
         }
         #endregion
+        #region CleanForm
         private void CleanForm()
         {
             Txt_User.Text = "";
             Txt_Password.Text = "";
             UserName = "";
         }
+        #endregion
     }
 }

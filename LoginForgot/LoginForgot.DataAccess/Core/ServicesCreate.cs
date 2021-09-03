@@ -12,6 +12,7 @@
     {
         private readonly string _strConn;
         public ServicesCreate(IConfiguration configuration) => _strConn = configuration.GetConnectionString("LoginFogotDB");
+        #region AddUser
         public void AddUser(User user)
         {
             var zAParam = new List<ZAParam>()
@@ -23,5 +24,6 @@
             };
             _strConn.Send("[dbo].[AddUser]", AllCmdType.SP, zAParam);
         }
+        #endregion
     }
 }

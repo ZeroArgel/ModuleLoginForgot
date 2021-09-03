@@ -11,10 +11,12 @@
     {
         private readonly IServicesRead _IServicesRead;
         public RetrieveServicesAdmin(IServicesRead iServicesRead) => _IServicesRead = iServicesRead;
+        #region GetUserByEmail
         public User GetUserByEmail(string email)
         {
             if (email.IsEmpty()) throw new ArgumentException("Email is empty");
             return _IServicesRead.ReadUserWithEmail(new User(email));
         }
+        #endregion
     }
 }

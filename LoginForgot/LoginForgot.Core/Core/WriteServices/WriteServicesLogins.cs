@@ -12,7 +12,7 @@
         private readonly IServicesCreate _IServicesCreate;
         private readonly IServicesUpdate _IServicesUpdate;
         private readonly IRetrieveServicesAdmin _IRetrieveServicesAdmin;
-        public WriteServicesLogins(IServicesCreate iServicesCreate, 
+        public WriteServicesLogins(IServicesCreate iServicesCreate,
             IServicesUpdate iServicesUpdate,
             IRetrieveServicesAdmin iRetrieveServicesAdmin)
         {
@@ -20,6 +20,7 @@
             _IServicesUpdate = iServicesUpdate;
             _IRetrieveServicesAdmin = iRetrieveServicesAdmin;
         }
+        #region Register
         public void Register(string userName, string email, string password, string confirmPassword, string cellPhone)
         {
             if (confirmPassword != password) throw new ArgumentException("Password not coincide with Confirm Password");
@@ -38,6 +39,8 @@
             };
             _IServicesCreate.AddUser(user);
         }
+        #endregion
+        #region NewPassword
         public void NewPassword(string email, string newPassword, string confirmNewPassword)
         {
             if (confirmNewPassword != newPassword) throw new ArgumentException("Password not coincide with Confirm Password");
@@ -50,5 +53,6 @@
 
             _IServicesUpdate.ChangePassword(User.UserId, newPassword.ToHash());
         }
+        #endregion
     }
 }

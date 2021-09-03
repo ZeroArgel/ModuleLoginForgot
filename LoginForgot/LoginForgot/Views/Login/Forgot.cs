@@ -12,9 +12,9 @@
         public Forgot(IRetrieveServicesLogins iRetrieveServicesLogins, IWriteServicesLogins iWriteServicesLogins)
         {
             InitializeComponent();
+            CleanForm();
             _IRetrieveServicesLogins = iRetrieveServicesLogins;
             _IWriteServicesLogins = iWriteServicesLogins;
-            CleanForm();
             GBox_PanelRecover.Enabled = false;
             Pnl_NewPassword.Enabled = false;
         }
@@ -65,6 +65,14 @@
             }
         }
         #endregion
+        #region Btn_ReturnLogin_Click
+        private void Btn_ReturnLogin_Click(object sender, EventArgs e)
+        {
+            CleanForm();
+            Dispose();
+            Close();
+        }
+        #endregion
         #region CleanForm
         private void CleanForm()
         {
@@ -76,14 +84,6 @@
             GBox_PanelForgot.Enabled = true;
             GBox_PanelRecover.Enabled = false;
             Pnl_NewPassword.Enabled = false;
-        }
-        #endregion
-        #region Btn_ReturnLogin_Click
-        private void Btn_ReturnLogin_Click(object sender, EventArgs e)
-        {
-            CleanForm();
-            Dispose();
-            Close();
         }
         #endregion
     }
